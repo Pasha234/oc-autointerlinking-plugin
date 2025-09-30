@@ -1,0 +1,17 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+name: Keyword
+form: ~/plugins/palpalych/autointerlinking/models/keyword/fields.yaml
+modelClass: PalPalych\AutoInterlinking\Models\Keyword
+
+create:
+    title: Создать ключевое слово
+    redirect: palpalych/autointerlinking/keywords/update/:id
+    redirectClose: palpalych/autointerlinking/keywords
+
+update:
+    title: Редактировать ключевое слово
+    redirect: palpalych/autointerlinking/keywords
+    redirectClose: palpalych/autointerlinking/keywords

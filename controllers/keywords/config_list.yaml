@@ -1,0 +1,16 @@
+# ===================================
+#  List Behavior Config
+# ===================================
+
+title: Manage Keywords
+list: ~/plugins/palpalych/autointerlinking/models/keyword/columns.yaml
+modelClass: PalPalych\AutoInterlinking\Models\Keyword
+recordUrl: palpalych/autointerlinking/keywords/update/:id
+
+showSetup: true
+showCheckboxes: true
+
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: backend::lang.list.search_prompt

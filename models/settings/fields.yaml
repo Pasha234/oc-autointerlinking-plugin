@@ -1,0 +1,43 @@
+# ===================================
+#  Field Definitions
+# ===================================
+
+tabs:
+    fields:
+        max_replacements_by_page:
+            label: Максимальное количество замен на странице
+            type: number
+            min: 0
+            tab: Основные
+
+        excluded_html_tags:
+            label: Исключаемые html-теги
+            type: checkboxlist
+            tab: Основные
+            options:
+                anchor: <a>
+                heading_one: <h1>
+                heading_two: <h2>
+                heading_three: <h3>
+                script: <script>
+                style: <style>
+
+        excluded_pages:
+            label: Исключаемые страницы (знак * для указания любого символа. Например "/story/*")
+            type: repeater
+            tab: Основные
+            form:
+                fields:
+                    path:
+                        label: Путь
+
+        cache_enabled:
+            label: Использовать кэширование
+            type: switch
+            tab: Кэш
+
+        cache_lifetime:
+            label: Время жизни кэша (в секундах)
+            type: number
+            tab: Кэш
+            default: 3600

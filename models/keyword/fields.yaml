@@ -1,0 +1,33 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    keyword:
+        label: Ключевое слово
+        required: true
+        span: left
+    url:
+        label: URL
+        required: true
+        span: right
+    active:
+        label: Включено
+        type: switch
+        default: true
+        span: left
+
+tabs:
+    fields:
+        settings[open_in_new_tab]:
+            label: Открывать в новом окне
+            type: switch
+            tab: Ссылка
+
+        settings[css_class]:
+            label: CSS-класс
+            tab: Ссылка
+
+        settings[title]:
+            label: Атрибут title
+            tab: Ссылка

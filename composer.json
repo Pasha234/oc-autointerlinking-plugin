@@ -1,0 +1,13 @@
+{
+    "name": "palpalych/autointerlinking-plugin",
+    "type": "october-plugin",
+    "description": "October cms plugin for make automatic interlinking",
+    "require": {
+        "composer/installers": "~1.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true
+        }
+    }
+}
