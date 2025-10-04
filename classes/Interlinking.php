@@ -90,9 +90,10 @@ class Interlinking
 
     protected function processKeyword(Keyword $model)
     {
-        $maxReplacements = (int) $this->settings->max_replacements_by_page;
+        $maxReplacements = (int) ($model->getSetting('max_replacements_by_page') ?? 1);
+        $replacementsCount = 0;
 
-        if ($maxReplacements > 0 && $this->replacementsCount >= $maxReplacements) {
+        if ($maxReplacements > 0 && $replacementsCount >= $maxReplacements) {
             return;
         }
 
@@ -116,13 +117,12 @@ class Interlinking
 
             $newContent = preg_replace_callback(
                 $pattern,
-                function ($matches) use ($model) {
-                    $maxReplacements = (int) $this->settings->max_replacements_by_page;
-                    if ($maxReplacements > 0 && $this->replacementsCount >= $maxReplacements) {
+                function ($matches) use ($model, $maxReplacements, &$replacementsCount) {
+                    if ($maxReplacements > 0 && $replacementsCount >= $maxReplacements) {
                         return $matches[0];
                     }
 
-                    $this->replacementsCount++;
+                    $replacementsCount++;
                     $target = $model->getSetting('open_in_new_tab') ? ' target="_blank"' : '';
                     $class = $model->getSetting('css_class') ? ' class="' . e($model->getSetting('css_class')) . '"' : '';
                     $title = $model->getSetting('title') ? ' title="' . e($model->getSetting('title')) . '"' : '';
