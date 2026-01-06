@@ -31,3 +31,9 @@ tabs:
         settings[title]:
             label: Атрибут title
             tab: Ссылка
+
+        settings[max_replacements_by_page]:
+            label: Максимальное количество замен на странице
+            type: number
+            min: 0
+            tab: Основные

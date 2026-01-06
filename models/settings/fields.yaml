@@ -4,12 +4,6 @@
 
 tabs:
     fields:
-        max_replacements_by_page:
-            label: Максимальное количество замен на странице
-            type: number
-            min: 0
-            tab: Основные
-
         excluded_html_tags:
             label: Исключаемые html-теги
             type: checkboxlist
