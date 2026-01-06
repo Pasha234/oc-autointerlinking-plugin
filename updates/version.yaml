@@ -2,3 +2,5 @@ v1.0.1: First version of AutoInterlinking
 v1.0.2:
     - Create keywords table
     - create_keywords_table.php
+v1.0.3:
+    - Fix text output to utf-8 compatible

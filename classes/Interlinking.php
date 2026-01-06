@@ -90,14 +90,18 @@ class Interlinking
 
     protected function processKeyword(Keyword $model)
     {
-        $maxReplacements = (int) $this->settings->max_replacements_by_page;
+        $maxReplacements = (int) ($model->getSetting('max_replacements_by_page') ?? 1);
+        $replacementsCount = 0;
 
-        if ($maxReplacements > 0 && $this->replacementsCount >= $maxReplacements) {
+        if ($maxReplacements > 0 && $replacementsCount >= $maxReplacements) {
             return;
         }
 
+        $contentToProcess = preg_replace('/^<\?xml[^>]*\?>\s*/i', '', $this->content);
+        
         $dom = new DOMDocument();
-        @$dom->loadHTML('<?xml encoding="utf-8" ?>' . $this->content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $dom->encoding = 'UTF-8';
+        @$dom->loadHTML('<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>' . $contentToProcess . '</body></html>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
 
         $xpath = new DOMXPath($dom);
 
@@ -116,13 +120,12 @@ class Interlinking
 
             $newContent = preg_replace_callback(
                 $pattern,
-                function ($matches) use ($model) {
-                    $maxReplacements = (int) $this->settings->max_replacements_by_page;
-                    if ($maxReplacements > 0 && $this->replacementsCount >= $maxReplacements) {
+                function ($matches) use ($model, $maxReplacements, &$replacementsCount) {
+                    if ($maxReplacements > 0 && $replacementsCount >= $maxReplacements) {
                         return $matches[0];
                     }
 
-                    $this->replacementsCount++;
+                    $replacementsCount++;
                     $target = $model->getSetting('open_in_new_tab') ? ' target="_blank"' : '';
                     $class = $model->getSetting('css_class') ? ' class="' . e($model->getSetting('css_class')) . '"' : '';
                     $title = $model->getSetting('title') ? ' title="' . e($model->getSetting('title')) . '"' : '';
@@ -138,7 +141,12 @@ class Interlinking
             }
         }
 
-        $this->content = $dom->saveHTML();
+        $html = $dom->saveHTML();
+        if (preg_match('/<body[^>]*>(.*)<\/body>/is', $html, $matches)) {
+            $html = $matches[1];
+        }
+        $html = preg_replace('/^<\?xml[^>]*\?>\s*/i', '', $html);
+        $this->content = html_entity_decode($html, ENT_QUOTES | ENT_HTML5, 'UTF-8');
     }
 
     protected function isPageExcluded(): bool
